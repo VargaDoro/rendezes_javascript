@@ -62,8 +62,49 @@ function megjelenit(lista, szuloElem) {
     console.log(elem);
     html += `<p>${elem.nev}, ${elem.kor} éves, ${elem.nem}</p>`;
   });
-  szuloElem.innerHTML = html
+  szuloElem.innerHTML = html;
 }
 
 /* Készíts legördülő menüt amelyben kiválaszthatjuk hogy névszerint/korszerint rendezve jelenjenek 
 meg az adatok illetve hogy szűrjünk 18 év felettiekre vagy nőkre vagy ferfiakra */
+
+const kivalasztElem = document.querySelector("#valaszt");
+console.log(kivalasztElem.value);
+kivalasztElem.addEventListener("change", () => {
+  console.log(kivalasztElem.value);
+  switch (kivalasztElem.value) {
+    case "valasz":
+      megjelenit(objLista, document.querySelector(".tartalom"));
+      break;
+    case "rNevNovekvo":
+      const novekvoLista = objLista.sort((a, b) => {
+        return a.nev.localeCompare(b.nev);
+      });
+      megjelenit(novekvoLista, document.querySelector(".tartalom"));
+      break;
+    case "rNevCsokken":
+      const csokkenoLista = objLista.sort((a, b) => {
+        return b.nev.localeCompare(a.nev);
+      });
+      megjelenit(csokkenoLista, document.querySelector(".tartalom"));
+      break;
+    case "nok":
+      const noObjLista = objLista.filter((a) => {
+        return a.nem === "nő";
+      });
+      megjelenit(noObjLista, document.querySelector(".tartalom"));
+      break;
+    case "ferfiak":
+      const ferfiObjLista = objLista.filter((a) => {
+        return a.nem === "férfi";
+      });
+      megjelenit(ferfiObjLista, document.querySelector(".tartalom"));
+      break;
+    case "nagykoru":
+      const nagykoruObjLista = objLista.filter((a) => {
+        return a.kor >= 18;
+      });
+      megjelenit(nagykoruObjLista, document.querySelector(".tartalom"));
+      break;
+  }
+});
